@@ -1,7 +1,11 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+<<<<<<< HEAD
 import { DeleteItemCommand, DynamoDBClient, PutItemCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
 import { ApiGatewayManagementApi, GoneException } from "@aws-sdk/client-apigatewaymanagementapi"
 import { TextEncoder } from "util";
+=======
+import { DeleteItemCommand, DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+>>>>>>> origin/connections_implementation
 
 const responseOk = {
   statusCode: 200,
@@ -48,6 +52,7 @@ const handleConnect = async (connectionId: string): Promise<APIGatewayProxyResul
   );
 
   return responseOk;
+<<<<<<< HEAD
 };
 const handleDisconnect = async (connectionId: string): Promise<APIGatewayProxyResult> => {
   await dynamodbClient.send(
@@ -99,3 +104,21 @@ const sendMessage = async (connectionId: string, body: string) => {
     throw e;
   }
 };
+=======
+};
+const handleDisconnect = async (connectionId: string): Promise<APIGatewayProxyResult> => {
+  await dynamodbClient.send(
+    new DeleteItemCommand({
+        TableName: clientsTable, 
+        Key: {
+          connectionId: {
+            S: connectionId,
+          },
+        },
+    }),
+  );
+
+  return responseOk;
+};
+const handleMsg = async (thisConnectionId: string): Promise<APIGatewayProxyResult> => {};
+>>>>>>> origin/connections_implementation
